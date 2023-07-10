@@ -264,11 +264,11 @@ var _ = Describe("kube-controllers rendering tests", func() {
 			Name: "ENABLED_CONTROLLERS", Value: "node,service,federatedservices",
 		}))
 
-		Expect(len(dp.Spec.Template.Spec.Containers[0].VolumeMounts)).To(Equal(2))
+		Expect(len(dp.Spec.Template.Spec.Containers[0].VolumeMounts)).To(Equal(3))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].MountPath).To(Equal("/internal-manager-tls"))
 
-		Expect(len(dp.Spec.Template.Spec.Volumes)).To(Equal(2))
+		Expect(len(dp.Spec.Template.Spec.Volumes)).To(Equal(3))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Secret.SecretName).To(Equal(render.ManagerInternalTLSSecretName))
 
@@ -354,13 +354,13 @@ var _ = Describe("kube-controllers rendering tests", func() {
 		}))
 		Expect(envs).To(ContainElements(esEnvs))
 
-		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts).To(HaveLen(2))
+		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts).To(HaveLen(3))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].MountPath).To(Equal("/internal-manager-tls"))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[1].Name).To(Equal("tigera-ca-bundle"))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[1].MountPath).To(Equal("/etc/pki/tls/certs"))
 
-		Expect(dp.Spec.Template.Spec.Volumes).To(HaveLen(2))
+		Expect(dp.Spec.Template.Spec.Volumes).To(HaveLen(3))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Secret.SecretName).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Volumes[1].Name).To(Equal("tigera-ca-bundle"))
@@ -419,11 +419,11 @@ var _ = Describe("kube-controllers rendering tests", func() {
 			Value: "node,service,federatedservices",
 		}))
 
-		Expect(len(dp.Spec.Template.Spec.Containers[0].VolumeMounts)).To(Equal(2))
+		Expect(len(dp.Spec.Template.Spec.Containers[0].VolumeMounts)).To(Equal(3))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].MountPath).To(Equal("/internal-manager-tls"))
 
-		Expect(len(dp.Spec.Template.Spec.Volumes)).To(Equal(2))
+		Expect(len(dp.Spec.Template.Spec.Volumes)).To(Equal(3))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Secret.SecretName).To(Equal(render.ManagerInternalTLSSecretName))
 
@@ -456,6 +456,7 @@ var _ = Describe("kube-controllers rendering tests", func() {
 		expectedVolumeMounts := []corev1.VolumeMount{
 			{Name: "tigera-ca-bundle", MountPath: "/etc/pki/tls/certs", ReadOnly: true},
 			{Name: "calico-kube-controllers-metrics-tls", MountPath: "/calico-kube-controllers-metrics-tls", ReadOnly: true},
+			{Name: "status", MountPath: "/status", ReadOnly: true},
 		}
 		expectedVolume := []corev1.Volume{
 			{
@@ -509,10 +510,10 @@ var _ = Describe("kube-controllers rendering tests", func() {
 		envs := dp.Spec.Template.Spec.Containers[0].Env
 		Expect(envs).To(ContainElements(expectedEnv))
 
-		Expect(len(dp.Spec.Template.Spec.Containers[0].VolumeMounts)).To(Equal(2))
+		Expect(len(dp.Spec.Template.Spec.Containers[0].VolumeMounts)).To(Equal(3))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts).To(ContainElements(expectedVolumeMounts))
 
-		Expect(len(dp.Spec.Template.Spec.Volumes)).To(Equal(2))
+		Expect(len(dp.Spec.Template.Spec.Volumes)).To(Equal(3))
 		Expect(dp.Spec.Template.Spec.Volumes).To(ContainElements(expectedVolume))
 
 		Expect(dp.Spec.Template.Spec.Containers[0].Image).To(Equal("test-reg/tigera/kube-controllers:" + components.ComponentTigeraKubeControllers.Version))
@@ -565,13 +566,13 @@ var _ = Describe("kube-controllers rendering tests", func() {
 			Value: "authorization,elasticsearchconfiguration,managedcluster",
 		}))
 
-		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts).To(HaveLen(2))
+		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts).To(HaveLen(3))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[0].MountPath).To(Equal("/internal-manager-tls"))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[1].Name).To(Equal("tigera-ca-bundle"))
 		Expect(dp.Spec.Template.Spec.Containers[0].VolumeMounts[1].MountPath).To(Equal("/etc/pki/tls/certs"))
 
-		Expect(dp.Spec.Template.Spec.Volumes).To(HaveLen(2))
+		Expect(dp.Spec.Template.Spec.Volumes).To(HaveLen(3))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Name).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Volumes[0].Secret.SecretName).To(Equal(render.ManagerInternalTLSSecretName))
 		Expect(dp.Spec.Template.Spec.Volumes[1].Name).To(Equal("tigera-ca-bundle"))
